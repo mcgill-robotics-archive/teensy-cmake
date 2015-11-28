@@ -23,11 +23,13 @@
 
 set(TRIPLE "arm-none-eabi")
 set(TOOLCHAIN_ROOT "/usr")
-set(TEENSY_CORES_ROOT "/usr/share/arduino/hardware/teensy/cores" CACHE PATH "Path to the Teensy 'cores' repository")
+set(TEENSY_BASE "/home/david/arduino-1.6.5-r5/hardware/teensy/avr")
+set(TEENSY_LIB_ROOT "${TEENSY_BASE}/libraries")
+set(TEENSY_CORES_ROOT "${TEENSY_BASE}/cores" CACHE PATH "Path to the Teensy 'cores' repository")
 set(TEENSY_ROOT "${TEENSY_CORES_ROOT}/teensy3")
-set(ARDUINO_LIB_ROOT "/usr/share/arduino/libraries" CACHE PATH "Path to the Arduino library directory")
-set(ARDUINO_VERSION "106" CACHE STRING "Version of the Arduino SDK")
-set(TEENSYDUINO_VERSION "120" CACHE STRING "Version of the Teensyduino SDK")
+set(ARDUINO_LIB_ROOT "/home/david/arduino-1.6.5-r5/libraries" CACHE PATH "Path to the Arduino library directory")
+set(ARDUINO_VERSION "165" CACHE STRING "Version of the Arduino SDK")
+set(TEENSYDUINO_VERSION "160" CACHE STRING "Version of the Teensyduino SDK")
 #set(TEENSY_MODEL "MK20DX256" CACHE STRING "Model of the Teensy MCU")
 set(TEENSY_MODEL "MK20DX256") # XXX Add Teensy 3.0 support.
 
@@ -66,7 +68,8 @@ set(CMAKE_C_FLAGS "${BASE_FLAGS} -DTIME_T=1421620748" CACHE STRING "c flags") # 
 set(CMAKE_CXX_FLAGS "${BASE_FLAGS} -fno-exceptions -fno-rtti -felide-constructors -std=gnu++0x" CACHE STRING "c++ flags")
 
 set(LINKER_FLAGS "-Os -Wl,--gc-sections ${TARGET_FLAGS} -T${TEENSY_ROOT}/mk20dx256.ld" )
-set(LINKER_LIBS "-larm_cortexM4l_math -lm" )
+#set(LINKER_LIBS "-larm_cortexM4l_math -lm" )
+set(LINKER_LIBS "-lm" )
 set(CMAKE_SHARED_LINKER_FLAGS "${LINKER_FLAGS}" CACHE STRING "linker flags" FORCE)
 set(CMAKE_MODULE_LINKER_FLAGS "${LINKER_FLAGS}" CACHE STRING "linker flags" FORCE)
 set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS}" CACHE STRING "linker flags" FORCE)

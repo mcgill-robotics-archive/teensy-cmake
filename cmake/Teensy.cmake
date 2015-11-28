@@ -163,11 +163,24 @@ macro(import_arduino_library LIB_NAME)
     if(NOT EXISTS ${ARDUINO_LIB_ROOT})
         message(FATAL_ERROR "Could not find the Arduino library directory")
     endif(NOT EXISTS ${ARDUINO_LIB_ROOT})
-    set(LIB_DIR "${ARDUINO_LIB_ROOT}/${LIB_NAME}")
-    if(NOT EXISTS "${LIB_DIR}")
+    if(NOT EXISTS ${TEENSY_LIB_ROOT})
+        message(FATAL_ERROR "Could not find the Teensy library directory")
+    endif(NOT EXISTS ${TEENSY_LIB_ROOT})
+
+    # Look for library in arduino and teensy root library folders
+    set(ARD_LIB_DIR "${ARDUINO_LIB_ROOT}/${LIB_NAME}/src")
+    set(TEN_LIB_DIR "${TEENSY_LIB_ROOT}/${LIB_NAME}")
+    if(NOT EXISTS "${ARD_LIB_DIR}" AND NOT EXISTS ${TEN_LIB_DIR})
         message(FATAL_ERROR "Could not find the directory for library '${LIB_NAME}'")
-    endif(NOT EXISTS "${LIB_DIR}")
-    
+    endif(NOT EXISTS "${ARD_LIB_DIR}" AND NOT EXISTS ${TEN_LIB_DIR})
+
+    # We prioritize the implementation of the library in the teensy cores
+    if(EXISTS "${TEN_LIB_DIR}")
+        set(LIB_DIR ${TEN_LIB_DIR})
+    else()
+        set(LIB_DIR ${ARD_LIB_DIR})
+    endif(EXISTS "${TEN_LIB_DIR}")
+
     # Add it to the include path.
     include_directories("${LIB_DIR}")
     
