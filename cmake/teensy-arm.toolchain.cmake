@@ -23,7 +23,11 @@
 
 set(TRIPLE "arm-none-eabi")
 set(TOOLCHAIN_ROOT "/usr")
-set(TEENSY_BASE "/home/david/arduino-1.6.5-r5/hardware/teensy/avr")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+# Find arduino sdk from cmake module
+include(FindArduino)
+
+set(TEENSY_BASE "${ARDUINO_SDK_PATH}/hardware/teensy/avr")
 set(TEENSY_LIB_ROOT "${TEENSY_BASE}/libraries")
 set(TEENSY_CORES_ROOT "${TEENSY_BASE}/cores" CACHE PATH "Path to the Teensy 'cores' repository")
 set(TEENSY_ROOT "${TEENSY_CORES_ROOT}/teensy3")
