@@ -31,11 +31,17 @@ set(TEENSY_BASE "${ARDUINO_SDK_PATH}/hardware/teensy/avr")
 set(TEENSY_LIB_ROOT "${TEENSY_BASE}/libraries")
 set(TEENSY_CORES_ROOT "${TEENSY_BASE}/cores" CACHE PATH "Path to the Teensy 'cores' repository")
 set(TEENSY_ROOT "${TEENSY_CORES_ROOT}/teensy3")
-set(ARDUINO_LIB_ROOT "/home/david/arduino-1.6.5-r5/libraries" CACHE PATH "Path to the Arduino library directory")
-set(ARDUINO_VERSION "165" CACHE STRING "Version of the Arduino SDK")
-set(TEENSYDUINO_VERSION "160" CACHE STRING "Version of the Teensyduino SDK")
-#set(TEENSY_MODEL "MK20DX256" CACHE STRING "Model of the Teensy MCU")
-set(TEENSY_MODEL "MK20DX256") # XXX Add Teensy 3.0 support.
+set(ARDUINO_LIB_ROOT "${ARDUINO_SDK_PATH}/libraries" CACHE PATH "Path to the Arduino library directory")
+set(TEENSY_MODEL "MK20DX256" CACHE STRING "Model of the Teensy MCU")
+
+file(READ ${ARDUINO_SDK_PATH}/lib/version.txt ARDUINO_VERSION)
+string(REGEX REPLACE "-.*" "" ARDUINO_VERSION ${ARDUINO_VERSION})
+string(REPLACE "." "" ARDUINO_VERSION ${ARDUINO_VERSION})
+
+file(READ ${TEENSY_BASE}/platform.txt TEENSYDUINO_VERSION)
+string(REGEX MATCH "[\n\r]version=([^\n\r]*)" TEENSYDUINO_VERSION ${TEENSYDUINO_VERSION})
+string(REGEX MATCH "[0-9].*" TEENSYDUINO_VERSION ${TEENSYDUINO_VERSION})
+string(REPLACE "." "" TEENSYDUINO_VERSION ${TEENSYDUINO_VERSION})
 
 set(TEENSY_FREQUENCY "96" CACHE STRING "Frequency of the Teensy MCU (Mhz)")
 set_property(CACHE TEENSY_FREQUENCY PROPERTY STRINGS 96 72 48 24 16 8 4 2)
